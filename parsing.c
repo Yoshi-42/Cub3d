@@ -25,6 +25,23 @@ int	ft_check_extension(char *map_name)
 	return (0);
 }
 
+int	ft_nblines(char *file)
+{
+	int		i;
+	int		fd;
+	char	buff;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		return (-1);
+	i = 0;
+	while (read(fd, &buff, 1))
+		if (buff == '\n')
+			i++;
+	close(fd);
+	return (i);
+}
+
 int	ft_fill_infos(t_map *map, int id)
 {
 	(void)map;
@@ -131,18 +148,33 @@ void	ft_print_infos(t_map map)
 	ft_debug_map(map.map);
 }
 
-t_map	ft_init(void)
+void	ft_init(t_map *map)
 {
-	t_map	map;
+	// t_map	map;
+	int		i;
 
-	map->imgN = NULL;
-	map->imgS = NULL;
-	map->imgO = NULL;
-	map->imgE = NULL;
-	t_color	floor_color;
-	t_color	ceiling_color;
-	char	**map;	map->
-	return (map);
+	i = 0;
+	map->p_imgs = malloc(sizeof(char*) * 5);
+	while (i < 4)
+	{
+		map->p_imgs[i] = ft_strdup("0");
+		i++;
+	}
+	map->p_imgs[i] = NULL;
+
+	map->floor_color = -1;
+	map->ceiling_color = -1;
+
+	// char	**map;	map->
+}
+
+int	ft_parsing(char *file, t_map *map)
+{
+	int	nblines;
+
+	ft_init(map);
+	nblines = ft_nblines(file);
+	
 }
 
 // typedef struct s_map
@@ -164,6 +196,7 @@ t_map	ft_init(void)
 
 //OPEN FICHIER
 //INITIALISE T_MAP NULL
+//COMPTER LES LIGNES AVEC SHERPA
 //UTILISER GNL AVEC LE FD
 //TANT QUE != ' ' OU '1' ON INITIALISE LES VALEURS
 //CHAQUE LIGNE VERIFIE SI C'EST LES BONS IDENTIFIANTS OU SI C'EST NULL

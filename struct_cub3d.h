@@ -92,8 +92,9 @@ typedef struct s_map
 	t_data	*imgS;
 	t_data	*imgO;
 	t_data	*imgE;
-	t_color	floor_color;
-	t_color	ceiling_color;
+	char	**p_imgs;
+	int		floor_color;
+	int		ceiling_color;
 	char	**map;
 }	t_map;
 
