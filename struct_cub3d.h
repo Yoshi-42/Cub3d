@@ -6,6 +6,8 @@
 # include <math.h>
 # include "minilibx/mlx.h"
 # include "minilibx/mlx_int.h"
+# include "libft/libft.h"
+# include "./get_next_line/get_next_line.h"
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -127,6 +129,18 @@ void		print_player(t_player p);
 t_point		find_player(char **map);
 char		find_orientation(t_point position, char **map);
 void		set_img(t_vars *vars);
+void		ft_debug_map(char **map);
+void		ft_print_infos(t_map map);
+
+//error checking
+
+int			ft_check_extension(char *map_name);
+
+//parsing
+
+int			ft_read_map(int fd, t_map *map);
+int			ft_open_map();
+
 
 
 #endif

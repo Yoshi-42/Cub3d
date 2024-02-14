@@ -98,18 +98,28 @@ void	set_img(t_vars *vars)
 			&(vars->img->endian));
 }
 
+// int main()
+// {
+// 	t_vars vars;
+
+// 	vars.p = initPlayer(find_orientation(find_player(_map), _map), find_player(_map));
+// 	print_player(vars.p);
+	
+// 	set_img(&vars);
+// 	vars.map = _map;
+// 	input_manag(&vars);
+// 	mlx_loop_hook(vars.mlx, update, (void *)&vars);
+// 	mlx_loop(vars.mlx);
+// }
+
+
 int main()
 {
-	t_vars vars;
+	t_map map;
 
-	vars.p = initPlayer(find_orientation(find_player(_map), _map), find_player(_map));
-	print_player(vars.p);
-	
-	set_img(&vars);
-	vars.map = _map;
-	input_manag(&vars);
-	mlx_loop_hook(vars.mlx, update, (void *)&vars);
-	mlx_loop(vars.mlx);
+	ft_read_map(ft_open_map(), &map);
+	ft_print_infos(map);
+	return 0;
 }
 
 
