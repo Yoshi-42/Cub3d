@@ -1,5 +1,18 @@
 #include "struct_cub3d.h"
 
+int	ft_err(char *errmsg)
+{
+	int	i;
+
+	i = 0;
+	while (errmsg[i])
+	{
+		write(2, &errmsg[i], 1);
+		i++;
+	}
+	return (-1);
+}
+
 int	ft_check_extension(char *map_name)
 {
 	int			i;
@@ -56,8 +69,7 @@ int	ft_open_map()
 	fd = -1;
 	if (ft_check_extension("map.cub") == -1)
 	{
-		printf("ERROR : INVALID MAP EXTENSION\n");
-		exit(1);
+		return (fd);
 	}
 	fd = open("map.cub", O_RDONLY);
 	// if (fd == -1)
@@ -102,7 +114,6 @@ int	ft_read_map(int fd, t_map *map)
 	int		bytes_read;
 	char	*buf;
 
-	
 	buf = NULL;
 	if (fd == -1)
 	{
@@ -171,9 +182,14 @@ void	ft_init(t_map *map)
 int	ft_parsing(char *file, t_map *map)
 {
 	int	nblines;
+	int	fd;
 
 	ft_init(map);
 	nblines = ft_nblines(file);
+	fd = ft_open_map();
+	if (fd == -1)
+		return (ft_err("error: cannot open map\n"));
+
 	
 }
 
