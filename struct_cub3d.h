@@ -141,6 +141,12 @@ int			ft_check_extension(char *map_name);
 
 int			ft_read_map(int fd, t_map *map);
 int			ft_open_map();
+int			ft_parse_map(int fd, int filesize, t_map *map);
+int			ft_parsing(char *file, t_map *map);
+int			ft_tablength(char **tchoup);
+
+//parsing2
+int			ft_parsing2(char *file, t_map *map);
 
 
 

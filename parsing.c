@@ -54,11 +54,37 @@ int	ft_nblines(char *file)
 	close(fd);
 	return (i);
 }
-
-int	ft_fill_infos(t_map *map, int id)
+int	ft_tablength(char **tchoup)
 {
-	(void)map;
-	printf("info id : %d\n", id);
+	int	i;
+
+	i = 0;
+	if (!tchoup)
+		return (-1);
+	while (tchoup[i])
+		i++;
+	return (i);
+}
+
+int	ft_fill_infos(char **placeholder, char *line)
+{
+	// (void)placeholder;
+	char **temp;
+
+	// printf("line : %s", line);
+	temp = ft_split(line, ' ');
+	if (!temp || ft_tablength(temp) == -1 || ft_tablength(temp) != 2)
+		return (ft_err("error: Invalid path format\n"));
+	*placeholder = ft_strdup(temp[1]);
+	// printf("placeholder : %s", *placeholder);
+	int i;
+	i= 0;
+	while(temp[i] != NULL)
+	{
+		free(temp[i]);
+		i++;
+	}
+	free(temp);
 	return (0);
 }
 
@@ -77,35 +103,84 @@ int	ft_open_map()
 	return (fd);
 }
 
-int	ft_parse_map(t_map *map)
+int	ft_check_startmap(char *line, int j)
 {
 	int	i;
-	// int	j;
+	int	len;
 
 	i = 0;
-	// j = 0;
-	while (map->map[i] && (map->map[i][0] != '1' && map->map[i][0] != ' '))
+	if(j == 1)
+		return(1);
+	if (line == NULL)
+		return (2);
+	len = ft_strlen(line);
+	while (i < (len - 1))
 	{
-		if (ft_strncmp(map->map[i], "NO", 2) != 0)
-			ft_fill_infos(map, 1);
-		else if (ft_strncmp(map->map[i], "SO", 2) != 0)
-			ft_fill_infos(map, 2);
-		else if (ft_strncmp(map->map[i], "WE", 2) != 0)
-			ft_fill_infos(map, 3);
-		else if (ft_strncmp(map->map[i], "EA", 2) != 0)
-			ft_fill_infos(map, 4);
-		else if (ft_strncmp(map->map[i], "F", 2) != 0)
-			ft_fill_infos(map, 5);
-		else if (ft_strncmp(map->map[i], "C", 2) != 0)
-			ft_fill_infos(map, 6);
+		if ((line[i] != ' ') && (line[i] != '1') && (line[i] != '0'))
+			return (1);
 		i++;
 	}
-	if (map->map[i][0] == '1' || map->map[i][0] == ' ')
-	{
-		map->map = &map->map[i];
-	}
-	printf("Parse map i : %d\n", i);
+	return (0);
+}
 
+int	ft_parse_map(int fd, int filesize, t_map *map)
+{
+	char	*line;
+	int		err;
+	// filesize;
+	// (map;
+	int	i;
+	int	j;
+
+	err = 0;
+	i = 1;
+	j = 0;
+		while (ft_check_startmap(line, i) != -1)
+		{
+			if(line != NULL)
+		 		free(line);
+			line = NULL;
+			line = get_next_line(fd);
+			i++;
+			while (line[0] == '\n')
+			{
+				free(line);
+				line = get_next_line(fd);
+				i++;
+				printf("NEW LINE\n");
+			}
+			if (ft_strncmp(line, "NO", 2) == 0)
+				err -= ft_fill_infos((&map->p_imgs[0]), line);
+			else if (ft_strncmp(line, "SO", 2) == 0)
+				err -= ft_fill_infos((&map->p_imgs[1]), line);
+			else if (ft_strncmp(line, "WE", 2) == 0)
+				err -= ft_fill_infos((&map->p_imgs[2]), line);
+			else if (ft_strncmp(line, "EA", 2) == 0)
+				err -= ft_fill_infos((&map->p_imgs[3]), line);
+			else if (ft_strncmp(line, "F", 1) == 0)
+				err -= ft_fill_infos((&map->p_imgs[4]), line);
+			else if (ft_strncmp(line, "C", 1) == 0)
+				err -= ft_fill_infos((&map->p_imgs[5]), line);
+			if (err < 0)
+				return (ft_err("error: Invalid config file\n"));
+		}
+	if (ft_check_startmap(line, i) == 2)
+	{
+		free(line);
+		return(ft_err("error: Invalid config file\n"));
+	}
+	else
+	{
+		map->map = malloc(sizeof(char*) * (filesize - i) + 1);
+		while (line != NULL)
+		{
+
+			line = get_next_line(fd);
+			j++;
+		}
+		map->map[j] = NULL;
+	}
+	free(line);
 	return (0);
 }
 
@@ -134,7 +209,7 @@ int	ft_read_map(int fd, t_map *map)
 		map->map = ft_split(buf, '\n');
 	}
 	free(buf);
-	ft_parse_map(map);
+	// ft_parse_map(map);
 	return (0);
 }
 
@@ -146,6 +221,7 @@ void	ft_debug_map(char **map)
 	// if (data->map_check[data->exit.posy][data->exit.posx] !=
 	// 	data->map_check[data->player.posy][data->player.posx])
 	// 	data->map_check[data->exit.posy][data->exit.posx] = EXIT_ID;
+	printf("\nMAMAAAAAP :\n");
 	while (map[i])
 	{
 		printf("%s\n", map[i]);
@@ -156,19 +232,33 @@ void	ft_debug_map(char **map)
 void	ft_print_infos(t_map map)
 {
 	// ft_read_map(&map);
+	printf("\nINFOS :\n\n");
+	int	i;
+
+	i = 0;
+	while (map.p_imgs[i])
+	{
+	
+		printf("%s\n", map.p_imgs[i]);
+		i++;
+		// sleep(1);
+
+	}
 	ft_debug_map(map.map);
 }
 
-void	ft_init(t_map *map)
+int	ft_init(t_map *map)
 {
 	// t_map	map;
 	int		i;
 
 	i = 0;
-	map->p_imgs = malloc(sizeof(char*) * 5);
+	map->p_imgs = malloc(sizeof(char*) * 7);
+	if (!map->p_imgs) /////////// ca regle pas
+		return (-1);
 	while (i < 4)
 	{
-		map->p_imgs[i] = ft_strdup("0");
+		map->p_imgs[i] = NULL;
 		i++;
 	}
 	map->p_imgs[i] = NULL;
@@ -176,21 +266,36 @@ void	ft_init(t_map *map)
 	map->floor_color = -1;
 	map->ceiling_color = -1;
 
+	return (0);
 	// char	**map;	map->
 }
 
 int	ft_parsing(char *file, t_map *map)
 {
-	int	nblines;
+	// (void)file;
 	int	fd;
+	fd = 0;
+	int	nblines;
+	int i = 0;///////////////////
 
-	ft_init(map);
+	if (ft_init(map) == -1)
+		return (-1);
 	nblines = ft_nblines(file);
+
 	fd = ft_open_map();
+	printf("%d\n", i++);////////////////
 	if (fd == -1)
 		return (ft_err("error: cannot open map\n"));
-
-	
+	ft_parse_map(fd, nblines, map);
+	i = 0;
+	while (i < 7)
+	{
+		if (map->p_imgs[i] != NULL)
+			free(map->p_imgs[i]);
+		i++;
+	}
+	free(map->p_imgs);
+	return (0);
 }
 
 // typedef struct s_map
@@ -217,3 +322,10 @@ int	ft_parsing(char *file, t_map *map)
 //TANT QUE != ' ' OU '1' ON INITIALISE LES VALEURS
 //CHAQUE LIGNE VERIFIE SI C'EST LES BONS IDENTIFIANTS OU SI C'EST NULL
 //SINON ON PASSE A LA PROCHAINE LIGNE
+
+
+
+// SPLIT LES COULURS
+// CHECKER LA MAP :
+//		1 PLAYER
+//		MURS TOUT AUTOUR

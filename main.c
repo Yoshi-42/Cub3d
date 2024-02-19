@@ -117,7 +117,9 @@ int main()
 {
 	t_map map;
 
-	ft_read_map(ft_open_map(), &map);
+	// ft_read_map(ft_open_map(), &map);
+	ft_parsing2("map.cub", &map);
+	//ft_parsing("map.cub", &map);
 	ft_print_infos(map);
 	return 0;
 }

@@ -6,7 +6,7 @@ NAME = cube3D
 
 SRCS_GNL = ./get_next_line/get_next_line_utils.c ./get_next_line/get_next_line.c
 
-SRCS = main.c raycast.c render.c ray.c color.c input.c parsing.c
+SRCS = main.c raycast.c render.c ray.c color.c input.c parsing.c parsing2.c
 
 OBJS_GNL := $(SRCS_GNL:.c=.o)
 
@@ -40,4 +40,4 @@ re : fclean all
 
 
 debug :
-	$(CC) -g -o $(NAME)debug $(SRCS) minilibx/libmlx_Linux.a -lX11 -lXext -lm
+	$(CC) -g -o $(NAME)debug $(SRCS) $(SRCS_GNL) libft/libft.a minilibx/libmlx_Linux.a -lX11 -lXext -lm
