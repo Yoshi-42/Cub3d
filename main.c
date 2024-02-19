@@ -6,7 +6,7 @@ char *_map[] = {
 "1001001001001001001",
 "1001001001001001001",
 "1001001000001001001",
-"100000000E000000001",
+"100000000O000000001",
 "1000011111111000001",
 "1111000000000001111",
 "1000000101010000001",
@@ -103,10 +103,10 @@ int main()
 	t_vars vars;
 
 	vars.p = initPlayer(find_orientation(find_player(_map), _map), find_player(_map));
-	print_player(vars.p);
-	
+	print_player(vars.p);	
 	set_img(&vars);
 	vars.map = _map;
+	init_tex(&vars);
 	input_manag(&vars);
 	mlx_loop_hook(vars.mlx, update, (void *)&vars);
 	mlx_loop(vars.mlx);

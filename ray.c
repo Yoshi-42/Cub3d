@@ -45,6 +45,7 @@ void	init_side(t_vars *vars, t_ray *ray)
 void	init_ray(t_vars *vars, t_ray *ray, int sx)
 {
 	double cameraX = (2 * sx / (double)WIDTH - 1);
+	//printf("Jaspe %f\n",cameraX);
 	define_point(&ray->rayDirXY, 
 			vars->p.dir.x + vars->p.p_screen.x * cameraX,
 			vars->p.dir.y + vars->p.p_screen.y * cameraX);//ici on defini la direction du rayon

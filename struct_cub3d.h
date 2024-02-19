@@ -70,30 +70,30 @@ typedef struct s_data {
 	int		endian;
 	int		height;
 	int		width;
+	char	*name;
 }				t_data;
+
+
+typedef struct s_map
+{
+	t_data	imgN;
+	t_data	imgS;
+	t_data	imgO;
+	t_data	imgE;
+	t_color	floor_color;
+	t_color	ceiling_color;
+	char	**map;
+}	t_map;
 
 typedef struct s_vars {
 	void	*mlx;
 	void	*win;
 	t_data	*img;
-	//t_stack	*input;
 	char	**map;
-	//t_map	m_map;
+	t_map	m_map;
 	t_player	p;
 }	t_vars;
 /////END of Minilibx forever !!!
-
-
-typedef struct s_map
-{
-	t_data	*imgN;
-	t_data	*imgS;
-	t_data	*imgO;
-	t_data	*imgE;
-	t_color	floor_color;
-	t_color	ceiling_color;
-	char	**map;
-}	t_map;
 
 //render
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
@@ -109,12 +109,10 @@ int		create_trgb(int t, int r, int g, int b);
 ////Utils
 void 	define_point (t_point *p, double _x , double _y);
 
-
 //ray
 t_point	init_delta(t_point rayDirXY);
 void	init_side(t_vars *vars, t_ray *ray);
 void	init_ray(t_vars *vars, t_ray *ray, int sx);
-
 
 //input
 int		input_manag(t_vars *vars);
@@ -122,11 +120,13 @@ void	player_movement(t_vars *vars);
 
 //debug
 
+
 t_player	initPlayer(char orientation, t_point position);
 void		print_player(t_player p);
 t_point		find_player(char **map);
 char		find_orientation(t_point position, char **map);
 void		set_img(t_vars *vars);
 
-
+//texture
+void    init_tex(t_vars *vars);
 #endif

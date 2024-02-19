@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 NAME = Cub3D
 
-SRCS = main.c raycast.c render.c ray.c color.c input.c
+SRCS = main.c raycast.c render.c ray.c color.c input.c texture.c
 
 OBJS := $(SRCS:.c=.o)
 
@@ -26,4 +26,4 @@ dolibft :
 	@make -C ./libft all > /dev/null
 
 debug :
-	$(CC) -g -o $(NAME)debug $(SRCS) minilibx/libmlx_Linux.a -lX11 -lXext -lm
+	$(CC) -g -o $(NAME)debug $(SRCS) minilibx/libmlx.a -lX11 -lXext -lm

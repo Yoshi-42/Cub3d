@@ -67,6 +67,6 @@ void	player_movement(t_vars *vars)
 	}
 	if(vars->p.move.x != 0 || vars->p.move.y != 0 || vars->p.rotate != 0)
 	{
-		print_player(vars->p);
+		//print_player(vars->p);
 	}
 }

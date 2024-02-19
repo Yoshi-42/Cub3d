@@ -1,5 +1,13 @@
 #include "struct_cub3d.h"
 
+typedef struct s_texture
+{
+	t_data	*tex;
+	t_point	texXY;
+	double	texPos;
+	double	step; 
+}	t_tex;
+
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
@@ -10,41 +18,68 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	draw_wall_face(t_vars *vars, t_ray *ray, t_point XY)
+void	define_tex(t_vars *vars, t_tex *tex, t_ray *ray)
 {
 	if (ray->side == 0) //NS
-		if(ray->rayDirXY.x < 0)
-			my_mlx_pixel_put(vars->img, XY.x, XY.y, create_trgb(0, 0, 204, 203));//N
+		if (ray->rayDirXY.x < 0)
+			tex->tex = &vars->m_map.imgN;
 		else
-			my_mlx_pixel_put(vars->img, XY.x, XY.y, create_trgb(0, 115, 194, 251));//S
-	else //EW
-		if(ray->rayDirXY.y < 0)
-			my_mlx_pixel_put(vars->img, XY.x, XY.y, create_trgb(0, 96, 80, 220));//O
+			tex->tex = &vars->m_map.imgS;
+	else
+		if (ray->rayDirXY.y < 0)
+			tex->tex = &vars->m_map.imgO;
 		else
-			my_mlx_pixel_put(vars->img, XY.x, XY.y, create_trgb(0, 0, 255 ,255));//E
+			tex->tex = &vars->m_map.imgE;
+}
+
+t_tex	find_coord_tex(t_vars *vars, t_ray *ray, int lineH)
+{
+	t_tex	tex;
+	double	wallX;
+
+	define_tex(vars, &tex, ray);
+	wallX = vars->p.pos.x + (ray->sideDistXY.y - ray->deltaDistXY.y) * ray->rayDirXY.x;
+	if(ray->side == 0)
+		wallX = vars->p.pos.y + (ray->sideDistXY.x - ray->deltaDistXY.x) * ray->rayDirXY.y;
+	wallX -= floor(wallX);
+	tex.texXY.x = (int)(wallX * (double)tex.tex->width);
+	if ((ray->side == 0 && ray->rayDirXY.x > 0) || (ray->side == 1 && ray->rayDirXY.y < 0))
+		tex.texXY.x = tex.tex->width - tex.texXY.x -1;
+	tex.step = 1.0 * tex.tex->height / lineH;
+	tex.texPos = ((-lineH / 2 + HEIGHT / 2) - HEIGHT / 2 + lineH / 2) * tex.step;
+	return (tex);
+}
+
+void	draw_wall_face(t_vars *vars, int _x, int _y, t_tex *tex)
+{
+	int	color;
+	tex->texXY.y = (int)tex->texPos & (tex->tex->height - 1);
+	tex->texPos += tex->step;
+	color = *(int*)(tex->tex->addr + ((int)tex->texXY.y * tex->tex->line_length + (int)tex->texXY.x * (tex->tex->bits_per_pixel / 8)));
+	my_mlx_pixel_put(vars->img, _x, _y, color);
 }
 
 void	draw_wall_col(t_vars *vars, int sx, t_ray *ray)
 {
-	int	lineH;
+	int		lineH;
 	t_point	draw;
-	t_point XY;
-	int	i;
+	t_tex	tex;
+	int		i;
 
 	lineH = (int) (HEIGHT / (ray->sideDistXY.y - ray->deltaDistXY.y));
 	if (ray->side == 0)
 		lineH = (int) (HEIGHT / (ray->sideDistXY.x - ray->deltaDistXY.x));
 	define_point(&draw, -lineH / 2 + HEIGHT / 2, lineH / 2 + HEIGHT / 2);
 	i = 0;
+	tex = find_coord_tex(vars, ray, lineH);
 	while (i < HEIGHT)
 	{
-		define_point(&XY, sx, i);
 		if (i < draw.x)
 			my_mlx_pixel_put(vars->img, sx, i, create_trgb(0, 255, 0 ,0));
 		else if (i > draw.y)
 			my_mlx_pixel_put(vars->img, sx, i, create_trgb(0, 0, 255 ,0));
 		else
-			draw_wall_face(vars, ray, XY);
+			draw_wall_face(vars, sx, i, &tex);
 		i++;
 	}
 }
