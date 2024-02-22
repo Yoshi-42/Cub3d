@@ -1,7 +1,7 @@
 #include "struct_cub3d.h"
 
 
-void free_array(char **array) 
+int free_array(char **array) 
 {
 	int i = 0;
 	while (array[i] != NULL) 
@@ -10,16 +10,22 @@ void free_array(char **array)
 		i++;
 	}
 	free(array);
+	return (-1);
 }
 
 
 void	delete_img(t_vars *vars)
 {
-	mlx_destroy_image(vars->mlx, vars->m_map.imgN.img);
-	mlx_destroy_image(vars->mlx, vars->m_map.imgS.img);
-	mlx_destroy_image(vars->mlx, vars->m_map.imgO.img);
-	mlx_destroy_image(vars->mlx, vars->m_map.imgE.img);
-	mlx_destroy_image(vars->mlx, vars->img->img);
+	if (vars->m_map.imgN.img != NULL)
+		mlx_destroy_image(vars->mlx, vars->m_map.imgN.img);
+	if (vars->m_map.imgS.img != NULL)
+		mlx_destroy_image(vars->mlx, vars->m_map.imgS.img);
+	if (vars->m_map.imgO.img != NULL)
+		mlx_destroy_image(vars->mlx, vars->m_map.imgO.img);
+	if (vars->m_map.imgE.img != NULL)
+		mlx_destroy_image(vars->mlx, vars->m_map.imgE.img);
+	if (vars->img->img != NULL)
+		mlx_destroy_image(vars->mlx, vars->img->img);
 	free(vars->img);
 }
 

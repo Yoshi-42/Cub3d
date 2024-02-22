@@ -37,9 +37,15 @@ int	ft_split_colors(t_map *map)
 	if (f_temp == NULL || c_temp == NULL)
 		return (-1);
 	if (ft_tablength(f_temp) != 3 || ft_tablength(c_temp) != 3)
+	{
+		free_array(f_temp);
+		free_array(c_temp);
 		return (-1);
+	}
 	map->floor_color = char_to_rgb(1, f_temp[0], f_temp[1], f_temp[2]);
 	map->ceiling_color = char_to_rgb(1, c_temp[0], c_temp[1], c_temp[2]);
+	free_array(f_temp);
+	free_array(c_temp); 
 	if(map->floor_color < 0 || map->ceiling_color < 0)
 		return (-1);
 	return (0);

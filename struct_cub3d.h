@@ -91,7 +91,6 @@ typedef struct s_vars {
 	void	*mlx;
 	void	*win;
 	t_data	*img;
-	char	**map;
 	t_map	m_map;
 	t_player	p;
 }	t_vars;
@@ -147,5 +146,7 @@ int			ft_tablength(char **tchoup);
 
 //close
 int			close_everything(t_vars *vars);
+int			free_array(char **array);
+
 
 #endif
