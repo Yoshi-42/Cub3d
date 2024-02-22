@@ -82,20 +82,20 @@ int ft_parsing(char *file, t_map *map)//ici on initialise le t_map
 	int fd;
 
 	if (ft_check_extension(file) == -1) // on verifie si l'extension .cup
-		return(ft_err("erreur d'extension .cub\n"));
+		return(ft_err("error: Invalid file extension\n"));
 	nbline = ft_nblines(file); // compte le nombre de ligne
 	if (nbline <= 0)// si nombre ligne faux erreur nbline, files, map
-		return (ft_err("erreur de fichier\n"));
+		return (ft_err("error: Invalid file\n"));
 	if(ft_init(map) == -1) //initialiser toute les valeur de t_map a null
-		return (ft_err("probleme init\n"));
+		return (ft_err("error: Failed initialisation\n"));
 	fd = ft_open_map(file);
 	if (fd < 0)// a debattre
-	 	return (ft_err("erreur"));
+	 	return (ft_err("error\n"));
 	if (first_parse(fd, map, nbline) == -1)
 		return(ft_err("error: Cannot parse map\n"));	// on verifie le haut de la map
 	close(fd);
 	if (ft_split_colors(map) != 0)
-		return (ft_err("error : Color format"));
+		return (ft_err("error : Color format\n")); ////msg modifier ?
 	return (0);
 }
 

@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
 		if(init_tex(&vars, vars.m_map.p_imgs) < 0)
 		{
 			close_everything(&vars);
-			return (ft_err("probleme de texture\n"));
+			return (ft_err("Fatal: Error loading textures\n"));
 		}
 		if (is_map_vailable(&vars.m_map) < 0 )
 			return (close_everything(&vars));
@@ -151,3 +151,14 @@ int	main(int argc, char *argv[])
 		// mlx_loop(vars.mlx);
 }
 */
+
+
+// ./cub3D maps/bad/map_missing.cub   seg
+// ./cub3D maps/bad/textures_missing.cub seg
+// ./cub3D maps/bad/textures_none.cub seg
+// ./cub3D maps/bad/map_too_small.cub seg
+// 111
+// 111
+// maps/bad/wall_hole_north.cub seg auqnd on se retourne
+
+// ./cub3D maps/bad/wall_hole_south.cub seg

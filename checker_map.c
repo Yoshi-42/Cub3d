@@ -68,7 +68,7 @@ int	ft_check_walls(char **map, int x, int y, int *isExit)
 {
 	if (*isExit > 0)
 		return (-1);
-	if (map[y][x] == '8')
+	if (map[y][x] == '8' && map[y][x] == '\0')
 	{
 		*isExit = *isExit + 1;
 		return (-1);
@@ -78,11 +78,17 @@ int	ft_check_walls(char **map, int x, int y, int *isExit)
 		map[y][x] = 'v';
 		if (map[y + 1] != NULL)
 			ft_check_walls(map, x, y + 1, isExit);
+		else
+			*isExit = *isExit + 1;
 		ft_check_walls(map, x + 1, y, isExit);
 		if (y > 0)
-		ft_check_walls(map, x, y - 1, isExit);
+			ft_check_walls(map, x, y - 1, isExit);
+		else
+			*isExit = *isExit + 1;
 		if (x > 0)
 			ft_check_walls(map, x - 1, y, isExit);
+		else
+			*isExit = *isExit + 1;
 	}
 	return (0);
 }
@@ -127,13 +133,13 @@ int is_map_vailable(t_map *map)
 		return (-1);
 	checkmap = ft_squaremap(map->map, ft_maxlen(map->map));
 	if (checkmap_value(checkmap) < 0)//si il y a autre chose que des 0 1 s w e n ' ' dans la map
-		return (ft_err("error: map value are false\n"));
+		return (ft_err("error: Config map file contains forbidden characters\n"));
 	start_pos = find_player(checkmap);
 	if (start_pos.x < 0)// si il y a plusieurs joueur
-		return(ft_err("error: Player error on map\n"));
+		return(ft_err("error: Invalid players number\n"));
 	is_exit = 0;
 	ft_check_walls(checkmap, start_pos.y, start_pos.x, &is_exit);
 	if (is_exit > 0)
-		return (ft_err("error: Wall error\n"));// si la la map est bien fermer par des mur     
+		return (ft_err("error: Map not closed by walls\n"));// si la la map est bien fermer par des mur     
 	return (0);
 }
