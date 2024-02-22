@@ -24,7 +24,7 @@ void	raycasting(t_vars *game, t_ray *ray, int sx, char target)
 			ray->mapXY.y += ray->step.y;
 			ray->side = 1;
 		}
-		if (game->map[(int)ray->mapXY.x][(int)ray->mapXY.y] == target)
+		if (game->m_map.map[(int)ray->mapXY.x][(int)ray->mapXY.y] == target)
 			hit = 1;
 	}
 }

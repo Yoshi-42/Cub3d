@@ -23,7 +23,10 @@ void    player_rotation(int keycode, t_vars *vars, double movement)
 int	key_press(int keycode, t_vars *vars)
 {
 	if (keycode == XK_Escape)
+	{
+		close_everything(vars);
 		exit(0);
+	}
 	player_move(keycode, vars, 1);
 	player_rotation(keycode, vars, 1);
 	return (0);
@@ -43,30 +46,48 @@ int	input_manag(t_vars *vars)
 	return (0);
 }
 
+int	move_posible(t_vars *vars, t_point pos)
+{
+	t_point n_posXY;
+
+	n_posXY.x = trunc(pos.x); 
+	n_posXY.y = trunc(pos.y);
+	if (vars->m_map.map[(int)n_posXY.x][(int)n_posXY.y] == '1')
+		return (-1);
+	return (0);
+}
+
+void	rotate(t_vars *vars, double speed)
+{
+	t_point save_x;
+
+	speed = speed * vars->p.rotate;
+	save_x.x = vars->p.dir.x;
+	vars->p.dir.x = vars->p.dir.x * cos(speed) - vars->p.dir.y * sin(speed);
+	vars->p.dir.y = save_x.x * sin(speed) + vars->p.dir.y * cos(speed);
+	save_x.y = vars->p.p_screen.x;
+	vars->p.p_screen.x = vars->p.p_screen.x * cos(speed) - vars->p.p_screen.y * sin(speed);
+	vars->p.p_screen.y = save_x.y * sin(speed) + vars->p.p_screen.y * cos(speed);
+}
+
 void	player_movement(t_vars *vars)
 {
 	double  speed;
-	t_point save_x;
+	t_point	oldPos;
 
 	speed = 0.09;
-	if (vars->p.move.y != 0) //tu bouge le perso laterralement
+	define_point(&oldPos, vars->p.pos.x, vars->p.pos.y);
+	if (vars->p.move.y != 0) // && move_posible(vars, vars->p.move.y, speed) != -1) //tu bouge le perso laterralement
 		define_point(&vars->p.pos, vars->p.pos.x + vars->p.dir.x * vars->p.move.y * speed ,
 			vars->p.pos.y + vars->p.dir.y * vars->p.move.y * speed);
-	if (vars->p.move.x != 0)
+	if (move_posible(vars, vars->p.pos) == -1)
+		define_point(&vars->p.pos, oldPos.x, oldPos.y);
+	define_point(&oldPos, vars->p.pos.x, vars->p.pos.y);
+	if (vars->p.move.x != 0 )//&& move_posible(vars, vars->p.move.x, speed) != -1)
 		define_point(&vars->p.pos, vars->p.pos.x + vars->p.dir.y * vars->p.move.x * speed ,
 			vars->p.pos.y + vars->p.dir.x * -vars->p.move.x * speed);
+	if (move_posible(vars, vars->p.pos) == -1)
+		define_point(&vars->p.pos, oldPos.x, oldPos.y);
 	if (vars->p.rotate != 0)//tu bouge la rotation 
-	{
-		speed = speed * vars->p.rotate;
-		save_x.x = vars->p.dir.x;
-		vars->p.dir.x = vars->p.dir.x * cos(speed) - vars->p.dir.y * sin(speed);
-		vars->p.dir.y = save_x.x * sin(speed) + vars->p.dir.y * cos(speed);
-		save_x.y = vars->p.p_screen.x;
-		vars->p.p_screen.x = vars->p.p_screen.x * cos(speed) - vars->p.p_screen.y * sin(speed);
-		vars->p.p_screen.y = save_x.y * sin(speed) + vars->p.p_screen.y * cos(speed);
-	}
-	if(vars->p.move.x != 0 || vars->p.move.y != 0 || vars->p.rotate != 0)
-	{
-		//print_player(vars->p);
-	}
+		rotate(vars, speed);
 }

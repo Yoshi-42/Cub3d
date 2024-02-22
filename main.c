@@ -1,6 +1,6 @@
 #include "struct_cub3d.h"
 
-char *_map[] = {
+/*char *_map[] = {
 "1111111111111111111",
 "1001001001001001001",
 "1001001001001001001",
@@ -12,7 +12,7 @@ char *_map[] = {
 "1000000101010000001",
 "1111111111111111111",
 NULL
-};
+};*/
 
 void define_point (t_point *p, double _x , double _y)
 {
@@ -66,15 +66,22 @@ t_point find_player(char **map)
 	t_point pt;
 
 	i = 0;
+	define_point(&pt, -1 ,-1);
 	while (map[i] != NULL)
 	{
 		j = 0;
 		while (map[i][j] != 0)
 		{
-			if(map[i][j] == 'N' || map[i][j] == 'S')
-				define_point(&pt, i, j);
-			if(map[i][j] == 'O' || map[i][j] == 'E')
-				define_point(&pt, i, j);
+			if((map[i][j] == 'N' || map[i][j] == 'S') || map[i][j] == 'O' || map[i][j] == 'E')
+			{
+				if (pt.x < 0)
+					define_point(&pt, i, j);
+				else
+				{
+					define_point(&pt, -1 ,-1);
+					return (pt);
+				}
+			}
 			j++;
 		}
 		i++;
@@ -98,18 +105,28 @@ void	set_img(t_vars *vars)
 			&(vars->img->endian));
 }
 
-int main()
+int main(int argc, char *argv[])
 {
 	t_vars vars;
 
-	vars.p = initPlayer(find_orientation(find_player(_map), _map), find_player(_map));
-	print_player(vars.p);	
-	set_img(&vars);
-	vars.map = _map;
-	init_tex(&vars);
-	input_manag(&vars);
-	mlx_loop_hook(vars.mlx, update, (void *)&vars);
-	mlx_loop(vars.mlx);
+	if (argc == 2)
+	{
+		if(ft_parsing(argv[1], &vars.m_map) < 0)//on parse la map
+			return (0);		
+		set_img(&vars);
+		if(init_tex(&vars, vars.m_map.p_imgs) < 0)
+		{
+			close_everything(&vars);
+			return (ft_err("probleme de texture\n"));
+		}
+		if (is_map_vailable(&vars.m_map) < 0 )
+			return (close_everything(&vars));
+		vars.p = initPlayer(find_orientation(find_player(vars.m_map.map), vars.m_map.map), find_player(vars.m_map.map));
+		input_manag(&vars);
+		mlx_loop_hook(vars.mlx, update, (void *)&vars);
+		mlx_loop(vars.mlx);
+	}
+	return (0);
 }
 
 

@@ -75,9 +75,9 @@ void	draw_wall_col(t_vars *vars, int sx, t_ray *ray)
 	while (i < HEIGHT)
 	{
 		if (i < draw.x)
-			my_mlx_pixel_put(vars->img, sx, i, create_trgb(0, 255, 0 ,0));
+			my_mlx_pixel_put(vars->img, sx, i, vars->m_map.floor_color);
 		else if (i > draw.y)
-			my_mlx_pixel_put(vars->img, sx, i, create_trgb(0, 0, 255 ,0));
+			my_mlx_pixel_put(vars->img, sx, i, vars->m_map.ceiling_color);
 		else
 			draw_wall_face(vars, sx, i, &tex);
 		i++;
@@ -88,6 +88,8 @@ int	update(t_vars *vars)
 {
 	player_movement(vars);
 	display_wall(vars);
+	//mlx_clear_window(vars->mlx, vars->win);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	
 	return (0);
 }

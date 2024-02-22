@@ -6,6 +6,8 @@
 # include <math.h>
 # include "minilibx/mlx.h"
 # include "minilibx/mlx_int.h"
+# include "libft/libft.h"
+# include "get_next_line/get_next_line.h"
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -17,7 +19,7 @@
 # define KEY_RIGHT 65363 
 # define KEY_LEFT 65361
 
-extern char *_map[];/* = {
+/*extern char *_map[]; = {
 "111111",
 "100101",
 "101001",
@@ -70,7 +72,6 @@ typedef struct s_data {
 	int		endian;
 	int		height;
 	int		width;
-	char	*name;
 }				t_data;
 
 
@@ -80,8 +81,9 @@ typedef struct s_map
 	t_data	imgS;
 	t_data	imgO;
 	t_data	imgE;
-	t_color	floor_color;
-	t_color	ceiling_color;
+	char	**p_imgs;
+	int		floor_color;
+	int		ceiling_color;
 	char	**map;
 }	t_map;
 
@@ -104,7 +106,10 @@ int		update(t_vars *vars);
 void	raycasting(t_vars *game, t_ray *ray, int sx, char target);
 void	display_wall(t_vars *vars);
 
+//color
 int		create_trgb(int t, int r, int g, int b);
+int		ft_split_colors(t_map *map);
+int	char_to_rgb(int t, char *r, char *g, char *b);
 
 ////Utils
 void 	define_point (t_point *p, double _x , double _y);
@@ -128,5 +133,19 @@ char		find_orientation(t_point position, char **map);
 void		set_img(t_vars *vars);
 
 //texture
-void    init_tex(t_vars *vars);
+int			init_tex(t_vars *vars, char **tex_file);
+
+//parsing parsmap
+int			ft_parsing(char *file, t_map *map);
+int			first_parse(int fd, t_map *map, int nbline);
+//Checkmap
+int			is_map_vailable(t_map *map);
+
+//utils.c
+int			ft_err(char *errmsg);
+int			ft_tablength(char **tchoup);
+
+//close
+int			close_everything(t_vars *vars);
+
 #endif

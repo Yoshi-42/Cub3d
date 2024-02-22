@@ -1,0 +1,139 @@
+#include "struct_cub3d.h"
+
+void print_char_array(char **array) {
+    int i = 0;
+	printf("map:\n");
+    while (array[i] != NULL) {
+        printf("%s\n", array[i]);
+        i++;
+    }
+	printf("map Fin:\n");
+}
+
+int	ft_maxlen(char **map)
+{
+	int	l;
+	int	i;
+
+	l = 0;
+	i = 0;
+	while (map[i])
+	{
+		if (ft_strlen(map[i]) > l)
+			l = ft_strlen(map[i]);
+		i++;
+	}
+	return (l);
+}
+
+char	**ft_squaremap(char **map, int maxline)
+{
+	char	**newmap;
+	int		i;
+	int		j;
+
+	i = 0;
+	newmap = malloc(sizeof(char*) * (ft_tablength(map) + 1)); // +1 pour le NULL final
+	if (!newmap)
+		return (NULL);
+	while (map[i])
+	{
+		newmap[i] = malloc(sizeof(char) * (maxline + 1)); // +1 pour le '\0'
+		if (!newmap[i])
+			return (NULL);
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == ' ' || map[i][j] == '\n')
+				newmap[i][j] = '8'; // Remplace les espaces par '8'
+			else
+				newmap[i][j] = map[i][j];
+			j++;
+		}
+		while (j < maxline)
+		{
+			newmap[i][j] = '8'; // Ajoute des murs
+			j++;
+		}
+		newmap[i][j] = '\0'; // Ajoute le caractère de fin de chaîne
+		i++;
+	}
+	newmap[i] = NULL; // Ajoute le NULL final au tableau de chaînes de caractères
+	return (newmap);
+}
+
+
+
+int	ft_check_walls(char **map, int x, int y, int *isExit)
+{
+	if (*isExit > 0)
+		return (-1);
+	if (map[y][x] == '8')
+	{
+		*isExit = *isExit + 1;
+		return (-1);
+	}
+	if (map[y][x] != '1' && map[y][x] != 'v')
+	{
+		map[y][x] = 'v';
+		if (map[y + 1] != NULL)
+			ft_check_walls(map, x, y + 1, isExit);
+		ft_check_walls(map, x + 1, y, isExit);
+		if (y > 0)
+		ft_check_walls(map, x, y - 1, isExit);
+		if (x > 0)
+			ft_check_walls(map, x - 1, y, isExit);
+	}
+	return (0);
+}
+
+int	simple_map_check(t_map *map)
+{
+	if (map->imgN.img == NULL || map->imgS.img == NULL || map->imgE.img  == NULL || map->imgO.img == NULL)
+		return (-1);
+	if(map->floor_color < 0 || map->ceiling_color < 0)
+		return (-1);
+	return (0);
+}
+
+int	checkmap_value(char **map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while(map[i] != NULL)
+	{
+		j = 0;
+		while(map[i][j] != '\0')
+		{
+			if(map[i][j] != '1' && map[i][j] != '0' && map[i][j] != '8' &&
+				map[i][j] != 'N'&& map[i][j] != 'S'&& map[i][j] != 'E'&& map[i][j] != 'O')
+					return (-1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int is_map_vailable(t_map *map)
+{
+     char	 **checkmap;
+     int    	is_exit;
+	 t_point	start_pos;
+
+	if (simple_map_check(map) < 0)// si les elemement de la map son ok (si il y a toute les texture et les couleurs)
+		return (-1);
+	checkmap = ft_squaremap(map->map, ft_maxlen(map->map));
+	if (checkmap_value(checkmap) < 0)//si il y a autre chose que des 0 1 s w e n ' ' dans la map
+		return (ft_err("error: map value are false\n"));
+	start_pos = find_player(checkmap);
+	if (start_pos.x < 0)// si il y a plusieurs joueur
+		return(ft_err("error: Player error on map\n"));
+	is_exit = 0;
+	ft_check_walls(checkmap, start_pos.y, start_pos.x, &is_exit);
+	if (is_exit > 0)
+		return (ft_err("error: Wall error\n"));// si la la map est bien fermer par des mur     
+	return (0);
+}
