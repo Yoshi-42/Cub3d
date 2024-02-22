@@ -1,12 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker_map.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/22 18:02:39 by bgonon            #+#    #+#             */
+/*   Updated: 2024/02/22 18:02:49 by bgonon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct_cub3d.h"
 
-void print_char_array(char **array) {
-    int i = 0;
+void	ft_debug_map(char **map)
+{
+	int		i;
+
+	i = 0;
+	printf("\nMAMAAAAAP :\n");
+	while (map[i])
+	{
+		printf("%s\n", map[i]);
+		i++;
+	}
+}
+
+void	print_char_array(char **array)
+{
+	int	i;
+
+	i = 0;
 	printf("map:\n");
-    while (array[i] != NULL) {
-        printf("%s\n", array[i]);
-        i++;
-    }
+	while (array[i] != NULL)
+	{
+		printf("%s\n", array[i]);
+		i++;
+	}
 	printf("map Fin:\n");
 }
 
@@ -62,8 +91,6 @@ char	**ft_squaremap(char **map, int maxline)
 	return (newmap);
 }
 
-
-
 int	ft_check_walls(char **map, int x, int y, int *isExit)
 {
 	if (*isExit > 0)
@@ -95,9 +122,10 @@ int	ft_check_walls(char **map, int x, int y, int *isExit)
 
 int	simple_map_check(t_map *map)
 {
-	if (map->imgN.img == NULL || map->imgS.img == NULL || map->imgE.img  == NULL || map->imgO.img == NULL)
+	if (map->imgN.img == NULL || map->imgS.img == NULL
+		|| map->imgE.img == NULL || map->imgO.img == NULL)
 		return (-1);
-	if(map->floor_color < 0 || map->ceiling_color < 0)
+	if (map->floor_color < 0 || map->ceiling_color < 0)
 		return (-1);
 	return (0);
 }
@@ -108,14 +136,15 @@ int	checkmap_value(char **map)
 	int	j;
 
 	i = 0;
-	while(map[i] != NULL)
+	while (map[i] != NULL)
 	{
 		j = 0;
-		while(map[i][j] != '\0')
+		while (map[i][j] != '\0')
 		{
-			if(map[i][j] != '1' && map[i][j] != '0' && map[i][j] != '8' &&
-				map[i][j] != 'N'&& map[i][j] != 'S'&& map[i][j] != 'E'&& map[i][j] != 'O')
-					return (-1);
+			if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != '8' &&
+				map[i][j] != 'N' && map[i][j] != 'S' &&
+				map[i][j] != 'E' && map[i][j] != 'O')
+				return (-1);
 			j++;
 		}
 		i++;
@@ -123,23 +152,23 @@ int	checkmap_value(char **map)
 	return (0);
 }
 
-int is_map_vailable(t_map *map)
+int	is_map_vailable(t_map *map)
 {
-     char	 **checkmap;
-     int    	is_exit;
-	 t_point	start_pos;
+	char		**checkmap;
+	int			is_exit;
+	t_point		start_pos;
 
-	if (simple_map_check(map) < 0)// si les elemement de la map son ok (si il y a toute les texture et les couleurs)
+	if (simple_map_check(map) < 0)
 		return (-1);
 	checkmap = ft_squaremap(map->map, ft_maxlen(map->map));
-	if (checkmap_value(checkmap) < 0)//si il y a autre chose que des 0 1 s w e n ' ' dans la map
-		return (ft_err("error: Config map file contains forbidden characters\n"));
+	if (checkmap_value(checkmap) < 0)
+		return (ft_err("error: Config map: Forbidden characters\n"));
 	start_pos = find_player(checkmap);
-	if (start_pos.x < 0)// si il y a plusieurs joueur
-		return(ft_err("error: Invalid players number\n"));
+	if (start_pos.x < 0)
+		return (ft_err("error: Invalid players number\n"));
 	is_exit = 0;
 	ft_check_walls(checkmap, start_pos.y, start_pos.x, &is_exit);
 	if (is_exit > 0)
-		return (ft_err("error: Map not closed by walls\n"));// si la la map est bien fermer par des mur     
+		return (ft_err("error: Map not closed by walls\n"));
 	return (0);
 }

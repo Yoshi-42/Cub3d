@@ -125,7 +125,7 @@ void	player_movement(t_vars *vars);
 //debug
 
 
-t_player	initPlayer(char orientation, t_point position);
+t_player	init_player(char orientation, t_point position);
 void		print_player(t_player p);
 t_point		find_player(char **map);
 char		find_orientation(t_point position, char **map);
