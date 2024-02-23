@@ -43,19 +43,22 @@ t_tex	find_coord_tex(t_vars *vars, t_ray *ray, int lineH)
 		wallX = vars->p.pos.y + (ray->sideDistXY.x - ray->deltaDistXY.x) * ray->rayDirXY.y;
 	wallX -= floor(wallX);
 	tex.texXY.x = (int)(wallX * (double)tex.tex->width);
-	if ((ray->side == 0 && ray->rayDirXY.x > 0) || (ray->side == 1 && ray->rayDirXY.y < 0))
-		tex.texXY.x = tex.tex->width - tex.texXY.x -1;
-	tex.step = 1.0 * tex.tex->height / lineH;
-	tex.texPos = ((-lineH / 2 + HEIGHT / 2) - HEIGHT / 2 + lineH / 2) * tex.step;
-	//tex.texPos = ( persWall - HEIGHT / 2 + lineH / 2) * tex.step;
+	//tex.step = 1.0 * tex.tex->height / lineH;
+	tex.step = 1.0 * tex.tex->height / lineH ;
+	//tex.texPos = ((-lineH / 2 + HEIGHT / 2) - HEIGHT / 2 + lineH / 2) * tex.step;
+		tex.texPos = ((-lineH / 2 + HEIGHT / 2) - HEIGHT / 2 + lineH / 2) * tex.step;
+	if ((-lineH / 2 + HEIGHT / 2) < 0)
+		tex.texPos = (-HEIGHT / 2 + lineH / 2) * tex.step;
+	/*if ((ray->side == 0 && ray->rayDirXY.x > 0) || (ray->side == 1 && ray->rayDirXY.y < 0))
+		tex.texXY.x = tex.tex->width - tex.texXY.x -1;*/
 	return (tex);
 }
 
 void	draw_wall_face(t_vars *vars, int _x, int _y, t_tex *tex)
 {
 	int	color;
-	tex->texXY.y = (int)tex->texPos & (tex->tex->height - 1);
 	tex->texPos += tex->step;
+	tex->texXY.y = (int)tex->texPos & (tex->tex->height - 1);
 	color = *(int*)(tex->tex->addr + ((int)tex->texXY.y * tex->tex->line_length + (int)tex->texXY.x * (tex->tex->bits_per_pixel / 8)));
 	my_mlx_pixel_put(vars->img, _x, _y, color);
 }

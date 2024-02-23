@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 10:59:17 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/23 11:04:40 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/23 15:00:06 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	ft_init(t_map *map)
 	map->p_imgs[i] = NULL;
 	map->floor_color = -1;
 	map->ceiling_color = -1;
+	map->map = NULL;
 	return (0);
 }
 

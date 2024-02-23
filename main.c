@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:20:26 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/22 18:38:36 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/23 15:40:17 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,16 +127,5 @@ int	main(int argc, char *argv[])
 	}
 	return (0);
 }
-
-// ./cub3D maps/bad/map_missing.cub   seg
-// ./cub3D maps/bad/textures_missing.cub seg
-// ./cub3D maps/bad/textures_none.cub seg
-// ./cub3D maps/bad/map_too_small.cub seg
-// 111
-// 111
-// maps/bad/wall_hole_north.cub seg auqnd on se retourne
-
-// ./cub3D maps/bad/wall_hole_south.cub seg
-
 
 // norm : main.c

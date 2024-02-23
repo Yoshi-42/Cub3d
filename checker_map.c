@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:02:39 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/22 18:02:49 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/23 15:31:16 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ int	simple_map_check(t_map *map)
 		|| map->imgE.img == NULL || map->imgO.img == NULL)
 		return (-1);
 	if (map->floor_color < 0 || map->ceiling_color < 0)
+		return (-1);
+	if (map->map == NULL)
 		return (-1);
 	return (0);
 }
