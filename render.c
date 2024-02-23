@@ -47,6 +47,7 @@ t_tex	find_coord_tex(t_vars *vars, t_ray *ray, int lineH)
 		tex.texXY.x = tex.tex->width - tex.texXY.x -1;
 	tex.step = 1.0 * tex.tex->height / lineH;
 	tex.texPos = ((-lineH / 2 + HEIGHT / 2) - HEIGHT / 2 + lineH / 2) * tex.step;
+	//tex.texPos = ( persWall - HEIGHT / 2 + lineH / 2) * tex.step;
 	return (tex);
 }
 

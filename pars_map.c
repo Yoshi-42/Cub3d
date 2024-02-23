@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pars_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 10:59:17 by bgonon            #+#    #+#             */
+/*   Updated: 2024/02/23 11:04:40 by bgonon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct_cub3d.h"
-
-
 
 int	ft_check_extension(char *map_name)
 {
@@ -12,7 +22,6 @@ int	ft_check_extension(char *map_name)
 	j = 0;
 	if (!map_name || ft_strlen(map_name) < 4)
 		return (-1);
-	
 	while (map_name[i] && i < (ft_strlen(map_name) - 4))
 		i++;
 	while (map_name[i] && extension[j])
@@ -48,10 +57,10 @@ int	ft_init(t_map *map)
 	int		i;
 
 	i = 0;
-	map->p_imgs = malloc(sizeof(char*) * 7);
-	if (!map->p_imgs) /////////// ca regle pas
+	map->p_imgs = malloc(sizeof(char *) * 7);
+	if (!map->p_imgs)
 		return (-1);
-	while (i < 6) //////////
+	while (i < 6)
 	{
 		map->p_imgs[i] = NULL;
 		i++;
@@ -75,29 +84,25 @@ int	ft_open_map(char *file)
 	return (fd);
 }
 
-
-int ft_parsing(char *file, t_map *map)//ici on initialise le t_map
+int	ft_parsing(char *file, t_map *map)
 {
-	int nbline;
-	int fd;
+	int	nbline;
+	int	fd;
 
-	if (ft_check_extension(file) == -1) // on verifie si l'extension .cup
-		return(ft_err("error: Invalid file extension\n"));
-	nbline = ft_nblines(file); // compte le nombre de ligne
-	if (nbline <= 0)// si nombre ligne faux erreur nbline, files, map
+	if (ft_check_extension(file) == -1)
+		return (ft_err("error: Invalid file extension\n"));
+	nbline = ft_nblines(file);
+	if (nbline <= 0)
 		return (ft_err("error: Invalid file\n"));
-	if(ft_init(map) == -1) //initialiser toute les valeur de t_map a null
+	if (ft_init(map) == -1)
 		return (ft_err("error: Failed initialisation\n"));
 	fd = ft_open_map(file);
-	if (fd < 0)// a debattre
-	 	return (ft_err("error\n"));
+	if (fd < 0)
+		return (ft_err("error\n"));
 	if (first_parse(fd, map, nbline) == -1)
-		return(ft_err("error: Cannot parse map\n"));	// on verifie le haut de la map
+		return (ft_err("error: Cannot parse map\n"));
 	close(fd);
 	if (ft_split_colors(map) != 0)
-		return (ft_err("error : Color format\n")); ////msg modifier ?
+		return (ft_err("error : Invalid file format\n"));
 	return (0);
 }
-
-
-//map->checkmap = ft_squaremap(map->map, ft_maxlen(map->map));

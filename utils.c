@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 11:18:41 by bgonon            #+#    #+#             */
+/*   Updated: 2024/02/23 11:19:09 by bgonon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct_cub3d.h"
 
 int	ft_err(char *errmsg)
@@ -13,7 +25,6 @@ int	ft_err(char *errmsg)
 	return (-1);
 }
 
-
 int	ft_tablength(char **tchoup)
 {
 	int	i;
@@ -25,4 +36,3 @@ int	ft_tablength(char **tchoup)
 		i++;
 	return (i);
 }
-
