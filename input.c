@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:11:21 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/22 18:20:07 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 16:06:47 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,32 +30,6 @@ void	player_rotation(int keycode, t_vars *vars, double movement)
 		vars->p.rotate = movement * -1;
 	if (keycode == KEY_LEFT)
 		vars->p.rotate = movement;
-}
-
-int	key_press(int keycode, t_vars *vars)
-{
-	if (keycode == XK_Escape)
-	{
-		close_everything(vars);
-		exit(0);
-	}
-	player_move(keycode, vars, 1);
-	player_rotation(keycode, vars, 1);
-	return (0);
-}
-
-int	key_release(int keycode, t_vars *vars)
-{
-	player_move(keycode, vars, 0);
-	player_rotation(keycode, vars, 0);
-	return (0);
-}
-
-int	input_manag(t_vars *vars)
-{
-	mlx_hook(vars->win, 2, 1, &key_press, vars);
-	mlx_hook(vars->win, 3, 10, &key_release, vars);
-	return (0);
 }
 
 int	move_posible(t_vars *vars, t_point pos)

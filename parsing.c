@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:07:42 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/23 15:30:32 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 16:14:39 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,6 @@ int	verif_parameters(char *line, t_map *map)
 	return (0);
 }
 
-void	m_line(char **line, int fd, int *i)
-{
-	if (*line != NULL)
-		free(*line);
-	*line = NULL;
-	*line = get_next_line(fd);
-	*i = *i + 1;
-}
-
-void	m_line_map(char **line, int fd, int *i, char **map)
-{
-	map[*i] = ft_strdup(*line);
-	m_line(line, fd, i);
-}
-
 int	ft_check_startmap(char *line)
 {
 	int	i;
@@ -106,7 +91,7 @@ int	first_parse(int fd, t_map *map, int nbline)
 	}
 	if (line != NULL)
 		map->map = malloc(sizeof(char *) * (nbline - i + 1));
-	else 
+	else
 		return (-1);
 	i = 0;
 	while (line != NULL)

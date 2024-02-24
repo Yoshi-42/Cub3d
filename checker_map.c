@@ -6,88 +6,38 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:02:39 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/24 10:50:18 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 16:02:02 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_cub3d.h"
 
-void	ft_debug_map(char **map)
-{
-	int		i;
-
-	i = 0;
-	printf("\nMAMAAAAAP :\n");
-	while (map[i])
-	{
-		printf("%s\n", map[i]);
-		i++;
-	}
-}
-
-void	print_char_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	printf("map:\n");
-	while (array[i] != NULL)
-	{
-		printf("%s\n", array[i]);
-		i++;
-	}
-	printf("map Fin:\n");
-}
-
-int	ft_maxlen(char **map)
-{
-	int	l;
-	int	i;
-
-	l = 0;
-	i = 0;
-	while (map[i])
-	{
-		if (ft_strlen(map[i]) > l)
-			l = ft_strlen(map[i]);
-		i++;
-	}
-	return (l);
-}
-
 char	**ft_squaremap(char **map, int maxline)
 {
-	char	**newmap;
-	int		i;
-	int		j;
+	char		**newmap;
+	t_ipoint	ij;
 
-	i = 0;
-	newmap = malloc(sizeof(char*) * (ft_tablength(map) + 1)); // +1 pour le NULL final
+	ij.i = 0;
+	newmap = malloc(sizeof(char *) * (ft_tablength(map) + 1));
 	if (!newmap)
 		return (NULL);
-	while (map[i])
+	while (map[ij.i])
 	{
-		newmap[i] = malloc(sizeof(char) * (maxline + 1)); // +1 pour le '\0'
-		if (!newmap[i])
+		newmap[ij.i] = malloc(sizeof(char) * (maxline + 1));
+		if (!newmap[ij.i])
 			return (NULL);
-		j = 0;
-		while (map[i][j])
+		ij.j = 0;
+		while (map[ij.i][ij.j])
 		{
-			if (map[i][j] == ' ' || map[i][j] == '\n')
-				newmap[i][j] = '8'; // Remplace les espaces par '8'
-			else
-				newmap[i][j] = map[i][j];
-			j++;
+			newmap[ij.i][ij.j] = map[ij.i][ij.j];
+			if (map[ij.i][ij.j] == ' ' || map[ij.i][ij.j] == '\n')
+				newmap[ij.i][ij.j] = '8';
+			ij.j++;
 		}
-		while (j < maxline)
-		{
-			newmap[i][j] = '8'; // Ajoute des murs
-			j++;
-		}
-		newmap[i][j] = '\0'; // Ajoute le caractère de fin de chaîne
-		i++;
+		newmap[ij.i][ij.j] = '\0';
+		ij.i++;
 	}
-	newmap[i] = NULL; // Ajoute le NULL final au tableau de chaînes de caractères
+	newmap[ij.i] = NULL;
 	return (newmap);
 }
 

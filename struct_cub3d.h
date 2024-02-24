@@ -19,14 +19,11 @@
 # define KEY_RIGHT 65363 
 # define KEY_LEFT 65361
 
-/*extern char *_map[]; = {
-"111111",
-"100101",
-"101001",
-"1100N1",
-"111111",
-NULL
-};*/
+typedef struct s_ipoint
+{
+	int	i;
+	int	j;
+}	t_ipoint;
 
 typedef struct s_point
 {
@@ -41,7 +38,6 @@ typedef	struct s_color
 	int	g;
 	int	b;
 }	t_color;
-
 
 typedef struct s_player
 {
@@ -62,7 +58,6 @@ typedef	struct s_ray
 	int		side; //la c'est pour savoir si ca va toucher le NS ou le EW
 }	t_ray;
 
-
 ////MiniLibx forever !!!!
 typedef struct s_data {
 	void	*img;
@@ -74,6 +69,13 @@ typedef struct s_data {
 	int		width;
 }				t_data;
 
+typedef struct s_texture
+{
+	t_data	*tex;
+	t_point	tex_xy;
+	double	tex_pos;
+	double	step;
+}	t_tex;
 
 typedef struct s_map
 {
@@ -97,34 +99,34 @@ typedef struct s_vars {
 /////END of Minilibx forever !!!
 
 //render
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void	draw_wall_col(t_vars *vars, int sx, t_ray *ray);
-int		update(t_vars *vars);
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void		draw_wall_col(t_vars *vars, int sx, t_ray *ray);
+int			update(t_vars *vars);
 
 //Raycastdouble	
-void	raycasting(t_vars *game, t_ray *ray, int sx, char target);
-void	display_wall(t_vars *vars);
+void		raycasting(t_vars *game, t_ray *ray, int sx, char target);
+void		display_wall(t_vars *vars);
 
 //color
-int		create_trgb(int t, int r, int g, int b);
-int		ft_split_colors(t_map *map);
-int	char_to_rgb(int t, char *r, char *g, char *b);
+int			create_trgb(int t, int r, int g, int b);
+int			ft_split_colors(t_map *map);
+int			char_to_rgb(int t, char *r, char *g, char *b);
 
 ////Utils
-void 	define_point (t_point *p, double _x , double _y);
+//void 	define_point (t_point *p, double _x , double _y);
 
 //ray
-t_point	init_delta(t_point rayDirXY);
-void	init_side(t_vars *vars, t_ray *ray);
-void	init_ray(t_vars *vars, t_ray *ray, int sx);
+t_point		init_delta(t_point rayDirXY);
+void		init_side(t_vars *vars, t_ray *ray);
+void		init_ray(t_vars *vars, t_ray *ray, int sx);
 
-//input
-int		input_manag(t_vars *vars);
-void	player_movement(t_vars *vars);
+//input key
+int			input_manag(t_vars *vars);
+void		player_movement(t_vars *vars);
+int			key_press(int keycode, t_vars *vars);
+int			key_release(int keycode, t_vars *vars);
 
 //debug
-
-
 t_player	init_player(char orientation, t_point position);
 void		print_player(t_player p);
 t_point		find_player(char **map);
@@ -141,12 +143,20 @@ int			first_parse(int fd, t_map *map, int nbline);
 int			is_map_vailable(t_map *map);
 
 //utils.c
+int			ft_maxlen(char **map);
 int			ft_err(char *errmsg);
 int			ft_tablength(char **tchoup);
+void		m_line(char **line, int fd, int *i);
+void		m_line_map(char **line, int fd, int *i, char **map);
 
 //close
 int			close_everything(t_vars *vars);
 int			free_array(char **array);
 
+//point.c
+void		revers_pt(t_point *pt);
+void		neg_pt(t_point *pt);
+void		define_point(t_point *p, double _x, double _y);
+t_point		create_point(double _x, double _y);
 
 #endif

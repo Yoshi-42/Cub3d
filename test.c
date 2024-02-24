@@ -1,5 +1,6 @@
 #include "minilibx/mlx.h"
-
+#include <stdio.h>
+/*
 #define WIDTH 800
 #define HEIGHT 600
 
@@ -34,10 +35,19 @@ void	draw_image(t_data *data)
 		y++;
 	}
 }
-
+*/
 int		main(void)
 {
-	t_data	data;
+	double test = 0;
+
+	for(int i = 0; i < 12 ; i++)
+	{
+		printf("%f\n", test);
+		test++;
+	}
+
+
+	/*t_data	data;
 
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "MiniLibX Texture");
@@ -46,7 +56,7 @@ int		main(void)
 
 	draw_image(&data);
 
-	mlx_loop(data.mlx);
+	mlx_loop(data.mlx);*/
 
 	return (0);
 }

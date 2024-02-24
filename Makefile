@@ -6,7 +6,7 @@ NAME = cub3D
 
 SRCS_GNL = ./get_next_line/get_next_line_utils.c ./get_next_line/get_next_line.c
 
-SRCS = main.c raycast.c render.c ray.c color.c input.c parsing.c pars_map.c utils.c checker_map.c texture.c close.c
+SRCS = main.c raycast.c render.c ray.c color.c input.c parsing.c pars_map.c utils.c checker_map.c texture.c close.c debug.c point.c key.c
 
 OBJS_GNL := $(SRCS_GNL:.c=.o)
 

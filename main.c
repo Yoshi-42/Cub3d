@@ -6,25 +6,33 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:20:26 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/23 16:25:52 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 15:45:16 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_cub3d.h"
 
-void	define_point(t_point *p, double _x, double _y)
-{
-	p->x = _x;
-	p->y = _y;
-}
-
 t_player	init_player(char orientation, t_point position)
 {
 	t_player	p;
 
-	p.pos.x = position.x;
-	p.pos.y = position.y;
-	if (orientation == 'O')
+	define_point(&p.pos, position.x, position.y);
+	define_point(&p.dir, 0, 1);
+	define_point(&p.p_screen, 0.66, 0);
+	if (orientation == 'N' || orientation == 'S')
+	{
+		revers_pt(&p.dir);
+		revers_pt(&p.p_screen);
+	}
+	if (orientation == 'N' || orientation == 'O')
+		neg_pt(&p.dir);
+	if (orientation == 'O' || orientation == 'S')
+		neg_pt(&p.p_screen);
+	define_point(&p.move, 0, 0);
+	p.rotate = 0;
+	return (p);
+}
+	/*if (orientation == 'O')
 	{
 		define_point(&(p.dir), 0, -1);
 		define_point(&(p.p_screen), -0.66, 0);
@@ -43,19 +51,7 @@ t_player	init_player(char orientation, t_point position)
 	{
 		define_point(&(p.dir), 1, 0);
 		define_point(&(p.p_screen), 0, -0.66);
-	}
-	define_point(&p.move, 0, 0);
-	p.rotate = 0;
-	return (p);
-}
-
-void	print_player(t_player p)
-{
-	printf("le player :\n");
-	printf("pos : %fx %fy\n", p.pos.x, p.pos.y);
-	printf("dir : %fx %fy\n", p.dir.x, p.dir.y);
-	printf("screen : %fx %fy\n", p.p_screen.x, p.p_screen.y);
-}
+	}*/
 
 t_point	find_player(char **map)
 {
@@ -70,15 +66,13 @@ t_point	find_player(char **map)
 		j = 0;
 		while (map[i][j] != 0)
 		{
-			if ((map[i][j] == 'N' || map[i][j] == 'S') || map[i][j] == 'O' || map[i][j] == 'E')
+			if ((map[i][j] == 'N' || map[i][j] == 'S') ||
+				map[i][j] == 'O' || map[i][j] == 'E')
 			{
 				if (pt.x < 0)
 					define_point(&pt, i, j);
 				else
-				{
-					define_point(&pt, -1, -1);
-					return (pt);
-				}
+					return (create_point(-1, -1));
 			}
 			j++;
 		}
@@ -131,5 +125,3 @@ int	main(int argc, char *argv[])
 	}
 	return (0);
 }
-
-// norm : main.c

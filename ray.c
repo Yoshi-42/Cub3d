@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:15:20 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/23 11:28:27 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 16:17:53 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 t_point	init_delta(t_point rayDirXY)
 {
-	t_point deltaDist;
+	t_point	delta_dist;
 
-	deltaDist.x = fabs(1/ rayDirXY.x);
-	deltaDist.y = fabs(1/ rayDirXY.y);
-	return deltaDist;
+	delta_dist.x = fabs(1 / rayDirXY.x);
+	delta_dist.y = fabs(1 / rayDirXY.y);
+	return (delta_dist);
 }
 
 //on initialise le step c'est a dire la direction vers la prochaine case
@@ -33,8 +33,8 @@ void	init_side(t_vars *vars, t_ray *ray)
 	else
 	{
 		ray->step.x = 1;
-		ray->sideDistXY.x = (ray->mapXY.x + 1.0 - vars->p.pos.x) *
-			ray->deltaDistXY.x;
+		ray->sideDistXY.x = (ray->mapXY.x + 1.0 - vars->p.pos.x)
+			* ray->deltaDistXY.x;
 	}
 	if (ray->rayDirXY.y < 0)
 	{
@@ -44,8 +44,8 @@ void	init_side(t_vars *vars, t_ray *ray)
 	else
 	{
 		ray->step.y = 1;
-		ray->sideDistXY.y = (ray->mapXY.y + 1.0 - vars->p.pos.y) *
-			ray->deltaDistXY.y;
+		ray->sideDistXY.y = (ray->mapXY.y + 1.0 - vars->p.pos.y)
+			* ray->deltaDistXY.y;
 	}
 }
 

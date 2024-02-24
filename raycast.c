@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/24 16:19:21 by bgonon            #+#    #+#             */
+/*   Updated: 2024/02/24 16:19:24 by bgonon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct_cub3d.h"
 
-//lance le raycasting jusqu'a tomber sur la target (ce qui permet de definir le rayon)
+//lance le raycasting jusqu'a tomber sur la target 
+//(ce qui permet de definir le rayon)
 //Args {game} toute les variable du jeu (notamment la map)
 //Args {ray} rayon que l'on va initialiser lors de ce lancer
 //Args {sx} la colonne sur laquelle le rayon est lancer
@@ -9,7 +22,7 @@ void	raycasting(t_vars *game, t_ray *ray, int sx, char target)
 	int		hit;
 
 	hit = 0;
-	init_ray(game, ray, sx); // on initialise la base du rayon
+	init_ray(game, ray, sx);
 	while (hit == 0)
 	{
 		if (ray->sideDistXY.x < ray->sideDistXY.y)
@@ -28,7 +41,6 @@ void	raycasting(t_vars *game, t_ray *ray, int sx, char target)
 			hit = 1;
 	}
 }
-
 
 void	display_wall(t_vars *vars)
 {
