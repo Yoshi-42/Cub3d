@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:02:55 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/23 15:11:19 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/23 16:26:20 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ int	free_array(char **array)
 	int	i;
 
 	i = 0;
-	while (array[i] != NULL)
+	if (array != NULL)
 	{
-		free(array[i]);
-		i++;
+		while (array[i] != NULL)
+		{
+			free(array[i]);
+			i++;
+		}
+		free(array);
 	}
-	free(array);
 	return (-1);
 }
 
@@ -57,6 +60,7 @@ int	close_everything(t_vars *vars)
 			i++;
 		}
 	}
+	free(vars->m_map.p_imgs);
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);

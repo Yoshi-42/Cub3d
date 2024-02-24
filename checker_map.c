@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:02:39 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/23 15:31:16 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 10:50:18 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	ft_check_walls(char **map, int x, int y, int *isExit)
 {
 	if (*isExit > 0)
 		return (-1);
-	if (map[y][x] == '8' && map[y][x] == '\0')
+	if (map[y][x] == '8' || map[y][x] == '\0' || map[y][x] == ' ')
 	{
 		*isExit = *isExit + 1;
 		return (-1);
@@ -167,9 +167,13 @@ int	is_map_vailable(t_map *map)
 		return (ft_err("error: Config map: Forbidden characters\n"));
 	start_pos = find_player(checkmap);
 	if (start_pos.x < 0)
-		return (ft_err("error: Invalid players number\n"));
+	{
+		free_array(checkmap);
+		return (ft_err("error: Invalid player\n"));
+	}
 	is_exit = 0;
 	ft_check_walls(checkmap, start_pos.y, start_pos.x, &is_exit);
+	free_array(checkmap);
 	if (is_exit > 0)
 		return (ft_err("error: Map not closed by walls\n"));
 	return (0);

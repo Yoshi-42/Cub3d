@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:20:26 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/23 15:40:17 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/23 16:25:52 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,11 @@ int	main(int argc, char *argv[])
 	if (argc == 2)
 	{
 		if (ft_parsing(argv[1], &vars.m_map) < 0)
+		{
+			free_array(vars.m_map.p_imgs);
+			free_array(vars.m_map.map);
 			return (0);
+		}
 		set_img(&vars);
 		if (init_tex(&vars, vars.m_map.p_imgs) < 0)
 		{

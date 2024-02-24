@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 10:59:17 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/23 15:00:06 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/23 16:29:36 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ int	ft_parsing(char *file, t_map *map)
 	int	nbline;
 	int	fd;
 
+	if (ft_init(map) == -1)
+		return (ft_err("error: Failed initialisation\n"));
 	if (ft_check_extension(file) == -1)
 		return (ft_err("error: Invalid file extension\n"));
 	nbline = ft_nblines(file);
 	if (nbline <= 0)
 		return (ft_err("error: Invalid file\n"));
-	if (ft_init(map) == -1)
-		return (ft_err("error: Failed initialisation\n"));
 	fd = ft_open_map(file);
 	if (fd < 0)
 		return (ft_err("error\n"));
