@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct_cub3d.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/24 16:48:54 by bgonon            #+#    #+#             */
+/*   Updated: 2024/02/24 17:07:21 by bgonon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#ifndef STRUCT_CUB3D
-# define STRUCT_CUB3D
+#ifndef STRUCT_CUB3D_H
+# define STRUCT_CUB3D_H
 
 # include <stdio.h>
 # include <math.h>
@@ -27,11 +38,11 @@ typedef struct s_ipoint
 
 typedef struct s_point
 {
-	double x;
-	double y;
+	double	x;
+	double	y;
 }	t_point;
 
-typedef	struct s_color
+typedef struct s_color
 {
 	int	t;
 	int	r;
@@ -41,25 +52,26 @@ typedef	struct s_color
 
 typedef struct s_player
 {
-	t_point pos;
-	t_point dir;
-	t_point p_screen;
+	t_point	pos;
+	t_point	dir;
+	t_point	p_screen;
 	t_point	move;
 	double	rotate;
 }	t_player;
 
-typedef	struct s_ray
+typedef struct s_ray
 {
-	t_point rayDirXY; //direction initial du rayon (direction de personnage + champ de vision)
-	t_point	mapXY; // point sur la map ou se situe le point
-	t_point	sideDistXY; //le cote vers lequel il va toucher la case visee
-	t_point	deltaDistXY; // le delta ???
-	t_point step; // la direction de la prochaine case
-	int		side; //la c'est pour savoir si ca va toucher le NS ou le EW
+	t_point	ray_dir_xy;
+	t_point	map_xy;
+	t_point	side_dist_xy;
+	t_point	delta_dist_xy;
+	t_point	step;
+	int		side;
 }	t_ray;
 
 ////MiniLibx forever !!!!
-typedef struct s_data {
+typedef struct s_data
+{
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
@@ -67,7 +79,7 @@ typedef struct s_data {
 	int		endian;
 	int		height;
 	int		width;
-}				t_data;
+}	t_data;
 
 typedef struct s_texture
 {
@@ -79,21 +91,22 @@ typedef struct s_texture
 
 typedef struct s_map
 {
-	t_data	imgN;
-	t_data	imgS;
-	t_data	imgO;
-	t_data	imgE;
-	char	**p_imgs;
+	t_data	img_n;
+	t_data	img_s;
+	t_data	img_o;
+	t_data	img_e;
+	char	**p_img_s;
 	int		floor_color;
 	int		ceiling_color;
 	char	**map;
 }	t_map;
 
-typedef struct s_vars {
-	void	*mlx;
-	void	*win;
-	t_data	*img;
-	t_map	m_map;
+typedef struct s_vars
+{
+	void		*mlx;
+	void		*win;
+	t_data		*img;
+	t_map		m_map;
 	t_player	p;
 }	t_vars;
 /////END of Minilibx forever !!!
@@ -116,7 +129,7 @@ int			char_to_rgb(int t, char *r, char *g, char *b);
 //void 	define_point (t_point *p, double _x , double _y);
 
 //ray
-t_point		init_delta(t_point rayDirXY);
+t_point		init_delta(t_point ray_dir_xy);
 void		init_side(t_vars *vars, t_ray *ray);
 void		init_ray(t_vars *vars, t_ray *ray, int sx);
 
@@ -125,6 +138,8 @@ int			input_manag(t_vars *vars);
 void		player_movement(t_vars *vars);
 int			key_press(int keycode, t_vars *vars);
 int			key_release(int keycode, t_vars *vars);
+void		player_move(int keycode, t_vars *vars, double movement);
+void		player_rotation(int keycode, t_vars *vars, double movement);
 
 //debug
 t_player	init_player(char orientation, t_point position);

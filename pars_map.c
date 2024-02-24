@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 10:59:17 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/23 16:29:36 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 17:03:24 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,15 @@ int	ft_init(t_map *map)
 	int		i;
 
 	i = 0;
-	map->p_imgs = malloc(sizeof(char *) * 7);
-	if (!map->p_imgs)
+	map->p_img_s = malloc(sizeof(char *) * 7);
+	if (!map->p_img_s)
 		return (-1);
 	while (i < 6)
 	{
-		map->p_imgs[i] = NULL;
+		map->p_img_s[i] = NULL;
 		i++;
 	}
-	map->p_imgs[i] = NULL;
+	map->p_img_s[i] = NULL;
 	map->floor_color = -1;
 	map->ceiling_color = -1;
 	map->map = NULL;

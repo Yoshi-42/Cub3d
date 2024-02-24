@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:19:46 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/24 16:32:45 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 17:07:21 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ void	define_tex(t_vars *vars, t_tex *tex, t_ray *ray)
 {
 	if (ray->side == 0)
 	{
-		if (ray->rayDirXY.x < 0)
-			tex->tex = &vars->m_map.imgN;
+		if (ray->ray_dir_xy.x < 0)
+			tex->tex = &vars->m_map.img_n;
 		else
-			tex->tex = &vars->m_map.imgS;
+			tex->tex = &vars->m_map.img_s;
 	}
 	else
 	{
-		if (ray->rayDirXY.y < 0)
-			tex->tex = &vars->m_map.imgO;
+		if (ray->ray_dir_xy.y < 0)
+			tex->tex = &vars->m_map.img_o;
 		else
-			tex->tex = &vars->m_map.imgE;
+			tex->tex = &vars->m_map.img_e;
 	}
 }
 
@@ -46,11 +46,11 @@ t_tex	find_coord_tex(t_vars *vars, t_ray *ray, int lineH)
 	double	wall_x;
 
 	define_tex(vars, &tex, ray);
-	wall_x = vars->p.pos.x + (ray->sideDistXY.y - ray->deltaDistXY.y)
-		* ray->rayDirXY.x;
+	wall_x = vars->p.pos.x + (ray->side_dist_xy.y - ray->delta_dist_xy.y)
+		* ray->ray_dir_xy.x;
 	if (ray->side == 0)
-		wall_x = vars->p.pos.y + (ray->sideDistXY.x - ray->deltaDistXY.x)
-			* ray->rayDirXY.y;
+		wall_x = vars->p.pos.y + (ray->side_dist_xy.x - ray->delta_dist_xy.x)
+			* ray->ray_dir_xy.y;
 	wall_x -= floor(wall_x);
 	tex.tex_xy.x = (int)(wall_x * (double)tex.tex->width);
 	tex.step = 1.0 * tex.tex->height / lineH ;
@@ -80,9 +80,9 @@ void	draw_wall_col(t_vars *vars, int sx, t_ray *ray)
 	t_tex	tex;
 	int		i;
 
-	line_h = (int)(HEIGHT / (ray->sideDistXY.y - ray->deltaDistXY.y));
+	line_h = (int)(HEIGHT / (ray->side_dist_xy.y - ray->delta_dist_xy.y));
 	if (ray->side == 0)
-		line_h = (int)(HEIGHT / (ray->sideDistXY.x - ray->deltaDistXY.x));
+		line_h = (int)(HEIGHT / (ray->side_dist_xy.x - ray->delta_dist_xy.x));
 	define_point(&draw, -line_h / 2 + HEIGHT / 2, line_h / 2 + HEIGHT / 2);
 	i = 0;
 	tex = find_coord_tex(vars, ray, line_h);
@@ -96,12 +96,4 @@ void	draw_wall_col(t_vars *vars, int sx, t_ray *ray)
 			draw_wall_face(vars, sx, i, &tex);
 		i++;
 	}
-}
-
-int	update(t_vars *vars)
-{
-	player_movement(vars);
-	display_wall(vars);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-	return (0);
 }

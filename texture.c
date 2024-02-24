@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:15:56 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/23 11:23:28 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 17:07:21 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	one_tex(void *mlx, char *tex_text, t_data *img)
 
 int	init_tex(t_vars *vars, char **tex_file)
 {
-	if (one_tex(vars->mlx, tex_file[0], &vars->m_map.imgN) == -1)
+	if (one_tex(vars->mlx, tex_file[0], &vars->m_map.img_n) == -1)
 		return (-1);
-	if (one_tex(vars->mlx, tex_file[1], &vars->m_map.imgS) == -1)
+	if (one_tex(vars->mlx, tex_file[1], &vars->m_map.img_s) == -1)
 		return (-1);
-	if (one_tex(vars->mlx, tex_file[2], &vars->m_map.imgO) == -1)
+	if (one_tex(vars->mlx, tex_file[2], &vars->m_map.img_o) == -1)
 		return (-1);
-	if (one_tex(vars->mlx, tex_file[3], &vars->m_map.imgE) == -1)
+	if (one_tex(vars->mlx, tex_file[3], &vars->m_map.img_e) == -1)
 		return (-1);
 	return (0);
 }

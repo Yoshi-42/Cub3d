@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:19:21 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/24 16:19:24 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 17:02:37 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ void	raycasting(t_vars *game, t_ray *ray, int sx, char target)
 	init_ray(game, ray, sx);
 	while (hit == 0)
 	{
-		if (ray->sideDistXY.x < ray->sideDistXY.y)
+		if (ray->side_dist_xy.x < ray->side_dist_xy.y)
 		{
-			ray->sideDistXY.x += ray->deltaDistXY.x;
-			ray->mapXY.x += ray->step.x;
+			ray->side_dist_xy.x += ray->delta_dist_xy.x;
+			ray->map_xy.x += ray->step.x;
 			ray->side = 0;
 		}
 		else
 		{
-			ray->sideDistXY.y += ray->deltaDistXY.y;
-			ray->mapXY.y += ray->step.y;
+			ray->side_dist_xy.y += ray->delta_dist_xy.y;
+			ray->map_xy.y += ray->step.y;
 			ray->side = 1;
 		}
-		if (game->m_map.map[(int)ray->mapXY.x][(int)ray->mapXY.y] == target)
+		if (game->m_map.map[(int)ray->map_xy.x][(int)ray->map_xy.y] == target)
 			hit = 1;
 	}
 }
@@ -54,4 +54,12 @@ void	display_wall(t_vars *vars)
 		draw_wall_col(vars, sx, &ray);
 		sx++;
 	}
+}
+
+int	update(t_vars *vars)
+{
+	player_movement(vars);
+	display_wall(vars);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	return (0);
 }

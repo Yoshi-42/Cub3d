@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:07:53 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/22 18:09:43 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 17:03:24 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ int	ft_split_colors(t_map *map)
 	char	**f_temp;
 	char	**c_temp;
 
-	if (map->p_imgs[4] == NULL || map->p_imgs[5] == NULL)
+	if (map->p_img_s[4] == NULL || map->p_img_s[5] == NULL)
 		return (-1);
-	f_temp = ft_split(map->p_imgs[4], ',');
-	c_temp = ft_split(map->p_imgs[5], ',');
+	f_temp = ft_split(map->p_img_s[4], ',');
+	c_temp = ft_split(map->p_img_s[5], ',');
 	if (f_temp == NULL || c_temp == NULL)
 		return (-1);
 	if (ft_tablength(f_temp) != 3 || ft_tablength(c_temp) != 3)

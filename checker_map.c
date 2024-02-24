@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:02:39 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/24 16:02:02 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 17:07:21 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	ft_check_walls(char **map, int x, int y, int *isExit)
 
 int	simple_map_check(t_map *map)
 {
-	if (map->imgN.img == NULL || map->imgS.img == NULL
-		|| map->imgE.img == NULL || map->imgO.img == NULL)
+	if (map->img_n.img == NULL || map->img_s.img == NULL
+		|| map->img_e.img == NULL || map->img_o.img == NULL)
 		return (-1);
 	if (map->floor_color < 0 || map->ceiling_color < 0)
 		return (-1);

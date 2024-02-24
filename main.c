@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:20:26 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/24 15:45:16 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 17:03:24 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,12 @@ int	main(int argc, char *argv[])
 	{
 		if (ft_parsing(argv[1], &vars.m_map) < 0)
 		{
-			free_array(vars.m_map.p_imgs);
+			free_array(vars.m_map.p_img_s);
 			free_array(vars.m_map.map);
 			return (0);
 		}
 		set_img(&vars);
-		if (init_tex(&vars, vars.m_map.p_imgs) < 0)
+		if (init_tex(&vars, vars.m_map.p_img_s) < 0)
 		{
 			close_everything(&vars);
 			return (ft_err("Fatal: Error loading textures\n"));

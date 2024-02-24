@@ -6,7 +6,7 @@
 /*   By: bgonon <bgonon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:07:42 by bgonon            #+#    #+#             */
-/*   Updated: 2024/02/24 16:14:39 by bgonon           ###   ########.fr       */
+/*   Updated: 2024/02/24 17:03:24 by bgonon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,17 @@ int	verif_parameters(char *line, t_map *map)
 
 	err = 0;
 	if (ft_strncmp(line, "NO", 2) == 0)
-		err += ft_fill_infos2((&map->p_imgs[0]), line);
+		err += ft_fill_infos2((&map->p_img_s[0]), line);
 	else if (ft_strncmp(line, "SO", 2) == 0)
-		err += ft_fill_infos2((&map->p_imgs[1]), line);
+		err += ft_fill_infos2((&map->p_img_s[1]), line);
 	else if (ft_strncmp(line, "WE", 2) == 0)
-		err += ft_fill_infos2((&map->p_imgs[2]), line);
+		err += ft_fill_infos2((&map->p_img_s[2]), line);
 	else if (ft_strncmp(line, "EA", 2) == 0)
-		err += ft_fill_infos2((&map->p_imgs[3]), line);
+		err += ft_fill_infos2((&map->p_img_s[3]), line);
 	else if (ft_strncmp(line, "F", 1) == 0)
-		err += ft_fill_infos2((&map->p_imgs[4]), line);
+		err += ft_fill_infos2((&map->p_img_s[4]), line);
 	else if (ft_strncmp(line, "C", 1) == 0)
-		err += ft_fill_infos2((&map->p_imgs[5]), line);
+		err += ft_fill_infos2((&map->p_img_s[5]), line);
 	if (err < 0)
 		return (ft_err("error: Invalid config file\n"));
 	return (0);
